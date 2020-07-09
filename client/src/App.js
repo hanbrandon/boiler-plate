@@ -6,7 +6,7 @@ import LoginPage from './components/views/LoginPage/LoginPage';
 import RegisterPage from './components/views/RegisterPage/RegisterPage';
 import Auth from './hoc/auth';
 
-function App() {
+const App = () => {
 	return (
 		<Router>
 			<div>
@@ -18,5 +18,5 @@ function App() {
 			</div>
 		</Router>
 	);
-}
+};
 export default App;
