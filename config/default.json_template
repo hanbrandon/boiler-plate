@@ -1,0 +1,10 @@
+{
+	"mongoURI": "",
+	"mailKey": {
+		"user": "info@championlenders.com",
+		"pass": "CLqlqjs2021!"
+	},
+	"ReCaptchaKey": {
+		"apikey": "6Ldgd98ZAAAAAC7zBDtKOFNeHUXQv-L8cCubt5hW"
+	}
+}

@@ -12,18 +12,18 @@ router.post('/api/users/register', (req, res) => {
 		if (user) {
 			return res.json({
 				success: false,
-				message: 'Account Already Exists'
+				message: 'Account Already Exists',
 			});
 		} else {
 			user.save((err, userInfo) => {
 				if (err) {
 					return res.json({
 						success: false,
-						err
+						err,
 					});
 				} else {
 					return res.status(200).json({
-						success: true
+						success: true,
 					});
 				}
 			});
@@ -32,12 +32,13 @@ router.post('/api/users/register', (req, res) => {
 });
 
 router.post('/api/users/login', (req, res) => {
+	console.log('login router');
 	//요청된 이메일을 데이터베이스에서 찾음.
 	User.findOne({ email: req.body.email }, (err, user) => {
 		if (!user) {
 			return res.json({
 				loginSuccess: false,
-				message: 'No account found.'
+				message: 'No account found.',
 			});
 		}
 		//요청된 이메일이 데이터 베이스에 있다면 비밀번호가 동일한지 확인.
@@ -45,7 +46,7 @@ router.post('/api/users/login', (req, res) => {
 			if (!isMatch)
 				return res.json({
 					loginSuccess: false,
-					message: 'Wrong Password'
+					message: 'Wrong Password',
 				});
 			//비밀번호가 동일하면 토큰 생성하기
 			user.generateToken((err, user) => {
@@ -54,7 +55,7 @@ router.post('/api/users/login', (req, res) => {
 				//토큰을 저장한다. 어디에? 쿠키<, 로컬스토리지, 세션
 				res.cookie('x_auth', user.token).status(200).json({
 					loginSuccess: true,
-					userId: user._id
+					userId: user._id,
 				});
 			});
 		});
@@ -71,7 +72,7 @@ router.get('/api/users/auth', auth, (req, res) => {
 		name: req.user.name,
 		lastname: req.user.lastname,
 		role: req.user.role,
-		iamge: req.user.image
+		iamge: req.user.image,
 	});
 });
 
@@ -79,13 +80,13 @@ router.get('/api/users/logout', auth, (req, res) => {
 	User.findOneAndUpdate(
 		{ _id: req.user._id },
 		{
-			token: ''
+			token: '',
 		},
 		(err, user) => {
 			{
 				if (err) return res.json({ success: false, err });
 				return res.status(200).send({
-					success: true
+					success: true,
 				});
 			}
 		}
@@ -98,28 +99,32 @@ router.put('/resetPassword', (req, res) => {
 		if (!user || err) {
 			return res.json({
 				success: false,
-				message: 'No account found.'
+				message: 'No account found.',
 			});
 		} else {
 			user.encryptPassword(req.body.password, (err, hash) => {
 				if (err) {
 					return res.json({
 						success: false,
-						err
+						err,
 					});
 				} else {
-					User.updateOne(user, { password: hash }, (err, response) => {
-						if (!response || err) {
-							return res.json({
-								success: false,
-								message: err ? err : 'No account found.'
-							});
-						} else {
-							return res.status(200).json({
-								success: true
-							});
+					User.updateOne(
+						user,
+						{ password: hash },
+						(err, response) => {
+							if (!response || err) {
+								return res.json({
+									success: false,
+									message: err ? err : 'No account found.',
+								});
+							} else {
+								return res.status(200).json({
+									success: true,
+								});
+							}
 						}
-					});
+					);
 				}
 			});
 		}

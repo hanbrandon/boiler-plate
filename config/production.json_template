@@ -1,0 +1,10 @@
+{
+	"mongoURI": "mongodb+srv://championlenders:mm5exbVSQtZKW9tE@championlenders.9xc0u.mongodb.net/ChampionLenders?retryWrites=true&w=majority",
+	"mailKey": {
+	   "user": "info@cozmofinance.com",
+	   "pass": "CLqlqjs2021!"
+	},
+	"ReCaptchaKey": {
+	   "apikey": "6Ldgd98ZAAAAAC7zBDtKOFNeHUXQv-L8cCubt5hW"
+	}
+ }

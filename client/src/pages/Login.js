@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../../../_actions/user_action';
-
+import { loginUser } from '../_actions/user_action';
 const LoginPage = (props) => {
 	const dispatch = useDispatch();
-	const [ Email, setEmail ] = useState('');
-	const [ Password, setPassword ] = useState('');
+	const [Email, setEmail] = useState('');
+	const [Password, setPassword] = useState('');
 
 	const onEmailHandler = (e) => {
 		setEmail(e.currentTarget.value);
@@ -20,7 +19,7 @@ const LoginPage = (props) => {
 
 		let body = {
 			email: Email,
-			password: Password
+			password: Password,
 		};
 
 		dispatch(loginUser(body)).then((response) => {
@@ -38,14 +37,21 @@ const LoginPage = (props) => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				width: '100%',
-				height: '100vh'
+				height: '100vh',
 			}}
 		>
-			<form style={{ display: 'flex', flexDirection: 'column' }} onSubmit={onSubmitHandler}>
+			<form
+				style={{ display: 'flex', flexDirection: 'column' }}
+				onSubmit={onSubmitHandler}
+			>
 				<label>Email</label>
-				<input type='email' value={Email} onChange={onEmailHandler} />
+				<input type="email" value={Email} onChange={onEmailHandler} />
 				<label> Password</label>
-				<input type='password' value={Password} onChange={onPasswordHandler} />
+				<input
+					type="password"
+					value={Password}
+					onChange={onPasswordHandler}
+				/>
 				<br />
 				<button>Login</button>
 			</form>

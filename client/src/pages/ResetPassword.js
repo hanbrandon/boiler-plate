@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../../../_actions/user_action';
+import { loginUser } from '../_actions/user_action';
 import { Link } from 'react-router-dom';
-import { auth } from '../../../_actions/user_action';
+import { auth } from '../_actions/user_action';
 
 /* material UI */
 import Button from '@material-ui/core/Button';
@@ -23,15 +23,15 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(20),
 		display: 'flex',
 		flexDirection: 'column',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	avatar: {
 		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main
+		backgroundColor: theme.palette.secondary.main,
 	},
 	form: {
 		width: '100%', // Fix IE 11 issue.
-		marginTop: theme.spacing(1)
+		marginTop: theme.spacing(1),
 	},
 	submit: {
 		margin: theme.spacing(3, 0, 2),
@@ -40,19 +40,19 @@ const useStyles = makeStyles((theme) => ({
 
 		'&:hover': {
 			backgroundColor: 'white',
-			color: '#B42025'
-		}
-	}
+			color: '#B42025',
+		},
+	},
 }));
 
 const ResetPasswordPage = (props) => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const token = props.match.params.id;
-	const [ Email, setEmail ] = useState('');
-	const [ Password, setPassword ] = useState({
+	const [Email, setEmail] = useState('');
+	const [Password, setPassword] = useState({
 		newPass: '',
-		confirmPass: ''
+		confirmPass: '',
 	});
 
 	useEffect(() => {
@@ -79,7 +79,7 @@ const ResetPasswordPage = (props) => {
 
 		let body = {
 			email: Email,
-			password: Password.newPass
+			password: Password.newPass,
 		};
 
 		axios.put('/api/users/resetPassword', body).then((response) => {
@@ -92,42 +92,48 @@ const ResetPasswordPage = (props) => {
 	};
 
 	return (
-		<Container component='main' maxWidth='xs'>
+		<Container component="main" maxWidth="xs">
 			<CssBaseline />
 			<div className={classes.paper}>
-				<Typography component='h1' variant='h5'>
+				<Typography component="h1" variant="h5">
 					Reset Password
 				</Typography>
 				<form className={classes.form} onSubmit={onSubmitHandler}>
 					<Grid item xs={12}>
 						<TextField
-							variant='outlined'
-							margin='normal'
+							variant="outlined"
+							margin="normal"
 							required
 							fullWidth
-							name='newPass'
-							label='New Password'
-							type='password'
-							id='password'
+							name="newPass"
+							label="New Password"
+							type="password"
+							id="password"
 							value={Password.newPass}
 							onChange={onPasswordHandler}
 						/>
 					</Grid>
 					<Grid item xs={12}>
 						<TextField
-							variant='outlined'
+							variant="outlined"
 							required
-							margin='normal'
+							margin="normal"
 							fullWidth
-							name='confirmPass'
-							label='Confirm Password'
-							type='password'
-							id='confirmPass'
+							name="confirmPass"
+							label="Confirm Password"
+							type="password"
+							id="confirmPass"
 							value={Password.confirmPass}
 							onChange={onPasswordHandler}
 						/>
 					</Grid>
-					<Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						color="primary"
+						className={classes.submit}
+					>
 						Reset
 					</Button>
 				</form>

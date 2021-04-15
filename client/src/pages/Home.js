@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 
-const LandingPage = (props) => {
+const HomePage = (props) => {
 	useEffect(() => {
 		axios.get('/api/hello');
 	}, []);
@@ -23,7 +23,7 @@ const LandingPage = (props) => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				width: '100%',
-				height: '100vh'
+				height: '100vh',
 			}}
 		>
 			<h2>Landing Page</h2>
@@ -32,4 +32,4 @@ const LandingPage = (props) => {
 	);
 };
 
-export default LandingPage;
+export default HomePage;
