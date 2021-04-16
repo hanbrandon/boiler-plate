@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { logout } from '../_actions/auth';
 
 const HomePage = (props) => {
-	useEffect(() => {
-		axios.get('/api/hello');
-	}, []);
-
 	const onClickHandler = () => {
 		axios.get(`/api/users/logout`).then((response) => {
 			if (response.data.success) {
@@ -27,7 +24,7 @@ const HomePage = (props) => {
 			}}
 		>
 			<h2>Landing Page</h2>
-			<button onClick={onClickHandler}>Logout</button>
+			<button onClick={() => logout().then(() => props.history.push(`/login`))}>Logout</button>
 		</div>
 	);
 };
