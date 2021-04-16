@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import Layout from '../components/global/Layout';
 
 const HomePage = (props) => {
 	useEffect(() => {
@@ -17,18 +18,20 @@ const HomePage = (props) => {
 	};
 
 	return (
-		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				width: '100%',
-				height: '100vh',
-			}}
-		>
-			<h2>Landing Page</h2>
-			<button onClick={onClickHandler}>Logout</button>
-		</div>
+		<Layout history={props.history}>
+			<div
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					width: '100%',
+					height: '100vh',
+				}}
+			>
+				<h2>Landing Page</h2>
+				<button onClick={onClickHandler}>Logout</button>
+			</div>
+		</Layout>
 	);
 };
 
