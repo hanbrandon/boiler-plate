@@ -5,16 +5,47 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectDB = require('../config/db');
 const path = require('path');
+const morgan = require('morgan');
+const passport = require('passport');
+const cookieSession = require('cookie-session');
+const config = require('config');
+const cookieEncryptionKey = config.get('cookieEncryptionKey');
 
 connectDB();
+
+app.use(morgan('dev'));
 
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //application/json
+
+var corsOptions = {
+	origin: 'http://localhost:3000',
+	optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+	res.header('Access-Control-Allow-Credentials', 'true');
+	next();
+});
+
+//application/json
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
+
+// Cookie setup
+app.use(
+	cookieSession({
+		maxAge: 1209600000, // two weeks in milliseconds
+		keys: [cookieEncryptionKey], //
+	})
+);
+
+// Passport setup
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
