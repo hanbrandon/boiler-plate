@@ -1,10 +1,8 @@
-import fetch from 'isomorphic-fetch';
 import cookie from 'js-cookie';
-import { API } from '../config';
 import axios from 'axios';
 
 export const register = user => {
-	return fetch(`${API}/users/register`, {
+	return axios(`/api/users/register`, {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -21,7 +19,7 @@ export const register = user => {
 export const login = user => {
 	return axios({
 		method: 'POST',
-		url: `${API}/users/login`,
+		url: `/api/users/login`,
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -37,7 +35,7 @@ export const login = user => {
 
 export const logout = async next => {
 	return await axios
-		.get(`${API}/users/logout`, { withCredentials: true })
+		.get(`/api/users/logout`, { withCredentials: true })
 		.then(response => {
 			removeCookie('express:sess.sig');
 			removeCookie('express:sess');
@@ -80,7 +78,7 @@ export const isAuth = async () => {
 				return false;
 			} */
 		return await axios
-			.get(`${API}/users/auth`, { withCredentials: true })
+			.get(`/api/users/auth`, { withCredentials: true })
 			.then(response => {
 				if (response && response.data && response.data.isAuth === true) {
 					return response.data;
@@ -97,7 +95,7 @@ export const isAuth = async () => {
 
 export const getUserInfoSSR = async cookieHeader => {
 	return await axios
-		.get(`${API}/users/auth`, {
+		.get(`/api/users/auth`, {
 			withCredentials: true,
 			headers: {
 				Cookie: cookieHeader,

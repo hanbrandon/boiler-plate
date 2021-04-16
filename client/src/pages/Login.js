@@ -1,16 +1,16 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { login } from '../_actions/auth';
-import ReCAPTCHA from 'react-google-recaptcha';
+/* import ReCAPTCHA from 'react-google-recaptcha'; */
 
 /* Material UI */
 import TextField from '@material-ui/core/TextField';
 import { Container, Row, Col, Button, Image, Alert } from 'react-bootstrap';
 
-import { REACT_APP_RECAPTCHA_KEY } from '../../config';
+/* const REACT_APP_RECAPTCHA_KEY = process.env.REACT_APP_RECAPTCHA_KEY; */
 
-const LoginForm = () => {
-	const reRef = useRef();
+const LoginForm = props => {
+	/* const reRef = useRef(); */
 	const [User, setUser] = useState({
 		email: '',
 		password: '',
@@ -28,31 +28,28 @@ const LoginForm = () => {
 	const onSubmitHandler = async e => {
 		e.preventDefault();
 		// console.table({ name, email, password, error, loading, message, showForm });
-		const token = await reRef.current.executeAsync();
-		reRef.current.reset();
+		/* const token = await reRef.current.executeAsync();
+		reRef.current.reset(); */
 
 		let body = {
 			email: User.email,
 			password: User.password,
-			token,
+			/* token, */
 		};
 
 		login(body).then(({ data }) => {
 			if (data && data.error) {
-				setValues({ ...values, error: data.error, loading: false });
+				setWarning({ type: 'danger', message: data.error });
 			} else {
 				// save user token to cookie
 				// save user info to localstorage
 				// authenticate user
 				// 나중에 수정해야함
-				if (data && data.user && data.user.isAuth 
-					&& (data.user.role.includes('new-comer'))) {
-					Router.push(`/register/roles`);
-				} else if (data && data.user && data.user.isAuth) {
-					Router.push('/');
+				if (data?.user?.isAuth) {
+					console.log(data?.user)
+					props.history.push('/');
 				} else {
-					setWarning({ type: 'danger', message: 'Invalid Email or Password.' })
-					Router.push('/login');
+					setWarning({ type: 'danger', message: 'Invalid Email or Password.' });
 				}
 			}
 		});
@@ -63,9 +60,7 @@ const LoginForm = () => {
 			<Row className="form-paper">
 				<Col>
 					<Link href="/">
-						<a>
-							<Image className="form-logo" src="/logos/cozmo_black.png"/>
-						</a>
+						<Image className="form-logo" src="/logos/cozmo_black.png"/>=
 					</Link>
 				</Col>
 				<h1 className="form-title">Login</h1>
@@ -138,8 +133,8 @@ const LoginForm = () => {
 							</Col>
 						</Row>
 					</Col>
-				</form>
-				<ReCAPTCHA sitekey={REACT_APP_RECAPTCHA_KEY} size="invisible" ref={reRef} />
+				</form>{/* 
+				<ReCAPTCHA sitekey={REACT_APP_RECAPTCHA_KEY} size="invisible" ref={reRef} /> */}
 			</Row>
 		</Container>
 	);
