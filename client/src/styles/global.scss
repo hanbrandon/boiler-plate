@@ -1,12 +1,12 @@
 main,
 .container {
-	background-color: $body-back;
+	background-color: $body-bg-color;
 }
 
 html {
 	font-size: $font-size;
 	scroll-behavior: smooth;
-	background-color: $body-back;
+	background-color: $body-bg-color;
 }
 body {
 	font-size: $font-size;
@@ -14,11 +14,11 @@ body {
 	font-weight: normal;
 	font-style: normal;
 	line-height: 21px;
-	background-color: $body-back;
+	background-color: $body-bg-color;
 }
 
 #layout {
-	background-color: $body-back !important;
+	background-color: $body-bg-color !important;
 }
 // .retina-font {
 // 	@media only screen and (min-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5),
@@ -106,7 +106,7 @@ input:-ms-input-placeholder {
 		left: 0;
 		width: 0%;
 		height: 100%;
-		background-color: $body-back;
+		background-color: $body-bg-color;
 		transition: all 0.3s;
 		z-index: -1;
 	}
@@ -270,7 +270,7 @@ input:-ms-input-placeholder {
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background: $body-back;
+		background: $body-bg-color;
 		z-index: -2;
 	}
 	&:before {
@@ -336,8 +336,8 @@ input:-ms-input-placeholder {
 	background-color: $pink;
 }
 
-.bg-body-back {
-	background-color: $body-back;
+.bg-body-bg-color {
+	background-color: $body-bg-color;
 }
 
 .bg-light-dark {
@@ -376,7 +376,7 @@ ul.no-bullet {
 }
 
 .para-font-color {
-	color: $para-color !important;
+	color: $black-light !important;
 }
 
 .pink-font-color {
@@ -557,7 +557,7 @@ ul.no-bullet {
 	font-weight: 600;
 	font-size: $font-size;
 	line-height: 21px;
-	color: $para-color;
+	color: $black-light;
 	text-transform: none;
 }
 .visuallyHidden {
