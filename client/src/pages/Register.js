@@ -170,10 +170,14 @@ const RegisterPage = (props) => {
                 label={
                   <span>
                     I accept the{" "}
-                    <Link to={"/terms-and-conditions"}>
+                    <Link to={"/terms-and-conditions"} target="_blank">
                       Terms and conditions
                     </Link>{" "}
-                    and <Link to={"/privacy-policy"}>Privacy Policy</Link>
+                    <span href="someLink"></span>
+                    and{" "}
+                    <Link to={"/privacy-policy"} target="_blank">
+                      Privacy Policy
+                    </Link>
                   </span>
                 }
               />
