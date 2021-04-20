@@ -1,4 +1,4 @@
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 $body-bg-color: #fafafa;
 $font-size: 14px;
@@ -10,8 +10,9 @@ $primary-dark-color: #1e3932;
 $black-color: #2e2f2f;
 $black-light: #666666;
 
-@import './home.scss';
-@import './global.scss';
-@import './nav.scss';
-@import './footer.scss';
-@import './login.scss';
+@import "./home.scss";
+@import "./global.scss";
+@import "./nav.scss";
+@import "./footer.scss";
+@import "./login.scss";
+@import "./register.scss";

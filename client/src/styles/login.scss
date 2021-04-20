@@ -1,2 +1,13 @@
 // #login {
 // }
+#login {
+  padding-top: 10%;
+  padding-bottom: 20%;
+  .form-paper {
+    max-width: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    // background-color: black;
+  }
+}
