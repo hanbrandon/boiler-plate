@@ -1,106 +1,77 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../_actions/user_action";
-import { Container, Row, Col, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Alert } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    [theme.breakpoints.down("xs")]: {
-      paddingTop: theme.spacing(10),
-      paddingBottom: theme.spacing(20),
-    },
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-    backgroundColor: "#03946d",
-    border: "1px solid #03946d",
-    borderRadius: "0",
-    "&:hover": {
-      backgroundColor: "#fafafa",
-      color: "#03946d",
-    },
-  },
-  terms: {
-    paddingTop: "0 !important",
-    paddingBottom: "0 !important",
-  },
-  formControl: {
-    marginTop: "0 !important",
-    marginBottom: "0 !important",
-  },
-}));
+import Button from "@material-ui/core/Button";
 
 const RegisterPage = (props) => {
-  const dispatch = useDispatch();
-  const [Email, setEmail] = useState("");
-  const [Name, setName] = useState("");
-  const [Password, setPassword] = useState("");
-  const [ConfirmPassword, setConfirmPassword] = useState("");
+  // const dispatch = useDispatch();
 
-  const onEmailHandler = (e) => {
-    setEmail(e.currentTarget.value);
+  const [User, setUser] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const onUserHandler = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...User, [name]: value });
   };
 
-  const onNameHandler = (e) => {
-    setName(e.currentTarget.value);
-  };
-
-  const onPasswordHandler = (e) => {
-    setPassword(e.currentTarget.value);
-  };
-
-  const onConfirmPasswordHandler = (e) => {
-    setConfirmPassword(e.currentTarget.value);
-  };
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    if (Password !== ConfirmPassword) {
+    if (User.password !== User.confirmPassword) {
       return alert("password and confirm password do not match");
     }
     let body = {
-      email: Email,
-      name: Name,
-      password: Password,
+      email: User.email,
+      name: User.name,
+      password: User.password,
     };
 
-    dispatch(registerUser(body)).then((response) => {
-      if (response.payload.success) {
-        props.history.push("/login");
-      } else {
-        alert("Failed to sign up");
-      }
-    });
+    console.log(User);
+    console.log(Subscribe);
+    console.log(Policy);
+
+    // dispatch(registerUser(body)).then((response) => {
+    //   if (response.payload.success) {
+    //     props.history.push("/login");
+    //   } else {
+    //     alert("Failed to sign up");
+    //   }
+    // });
   };
 
-  const classes = useStyles();
+  const [Subscribe, setSubscribe] = useState(false);
+  const [Policy, setPolicy] = useState(false);
   const [Warning, setWarning] = useState({
     message: "",
     type: "",
   });
-  const [Policy, setPolicy] = useState(false);
+
   const onPolicyHandler = (e) => {
     Policy ? setPolicy(false) : setPolicy(true);
+  };
+
+  const onSubscribeHandler = (e) => {
+    Subscribe ? setSubscribe(false) : setSubscribe(true);
   };
   return (
     <div id="register">
       <Container components="main" maxWidth="xs">
-        <form className={classes.form} onSubmit={onSubmitHandler}>
+        <form onSubmit={onSubmitHandler}>
           <Grid container spacing={2}>
             {Warning.message ? (
-              <Grid item xs={12}>
+              <Grid witem xs={12}>
                 <Alert severity={Warning.type}>{Warning.message}</Alert>
               </Grid>
             ) : null}
@@ -114,8 +85,8 @@ const RegisterPage = (props) => {
                 id="firstName"
                 label="First Name"
                 autoFocus
-                //   value={User.firstName}
-                // onChange={onUserHandler}
+                value={User.firstName}
+                onChange={onUserHandler}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -127,8 +98,8 @@ const RegisterPage = (props) => {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
-                //   value={User.lastName}
-                //   onChange={onUserHandler}
+                value={User.lastName}
+                onChange={onUserHandler}
               />
             </Grid>
             <Grid item xs={12}>
@@ -141,8 +112,8 @@ const RegisterPage = (props) => {
                 name="email"
                 type="email"
                 autoComplete="email"
-                //   value={User.email}
-                onChange={onEmailHandler}
+                value={User.email}
+                onChange={onUserHandler}
               />
             </Grid>
             <Grid item xs={12}>
@@ -154,8 +125,8 @@ const RegisterPage = (props) => {
                 label="Password"
                 type="password"
                 id="password"
-                value={Password}
-                onChange={onPasswordHandler}
+                value={User.password}
+                onChange={onUserHandler}
               />
             </Grid>
             <Grid item xs={12}>
@@ -167,28 +138,30 @@ const RegisterPage = (props) => {
                 label="Confirm Password"
                 type="password"
                 id="confirm-password"
-                value={ConfirmPassword}
-                onChange={onConfirmPasswordHandler}
+                value={User.confirmPassword}
+                onChange={onUserHandler}
               />
             </Grid>
-            <Grid item xs={12} className={classes.terms}>
+            <Grid item xs={12} className="checkbox">
               <FormControlLabel
-                className={classes.formControl}
+                className="checkbox"
                 control={
                   <Checkbox
-                    //   value={Subscribe}
-                    //   onChange={onSubscribeHandler}
+                    className="checkbox"
+                    value={Subscribe}
                     color="primary"
+                    onChange={onSubscribeHandler}
                   />
                 }
                 label="Subscribe to our newsletter."
               />
             </Grid>
-            <Grid item xs={12} className={classes.terms}>
+            <Grid item xs={12} className="mb-3">
               <FormControlLabel
-                className={classes.formControl}
+                className="checkbox"
                 control={
                   <Checkbox
+                    className="checkbox"
                     value={Policy}
                     onChange={onPolicyHandler}
                     color="primary"
@@ -206,17 +179,11 @@ const RegisterPage = (props) => {
               />
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            //   className={classes.submit}
-          >
+          <Button type="submit" fullWidth variant="contained" color="primary">
             Sign Up
           </Button>
           <Grid container justify="flex-end">
-            <Grid item>
+            <Grid item className="mt-1">
               Already have an account?&nbsp;
               <Link to="/login" variant="body2">
                 Sign in
@@ -225,22 +192,6 @@ const RegisterPage = (props) => {
           </Grid>
         </form>
       </Container>
-      {/* <form className="form-wrapper" onSubmit={onSubmitHandler}>
-        <label>Email</label>
-        <input type="email" value={Email} onChange={onEmailHandler} />
-        <label>Name</label>
-        <input type="text" value={Name} onChange={onNameHandler} />
-        <label> Password</label>
-        <input type="password" value={Password} onChange={onPasswordHandler} />
-        <label> Confirm Password</label>
-        <input
-		type="password"
-		value={ConfirmPassword}
-		onChange={onConfirmPasswordHandler}
-        />
-        <br />
-        <button>Register</button>
-      </form> */}
     </div>
   );
 };

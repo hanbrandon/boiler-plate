@@ -135,12 +135,12 @@ const LoginPage = (props) => {
                 <Row>
                   <Col xs={12} className="form-input p0 mt-1">
                     Don't have an account?&nbsp;&nbsp;
-                    <Link href="/register" variant="body2">
+                    <Link to="/register" variant="body2">
                       Sign Up
                     </Link>
                   </Col>
                   <Col xs={12} className="p0">
-                    <Link href="/forgot-password" variant="body2">
+                    <Link to="/forgot-password" variant="body2">
                       Forgot password?
                     </Link>
                   </Col>
