@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../components/global/Layout';
-import { logout } from '../_actions/auth';
 
 const HomePage = (props) => {
+	const user = props.user;
+	console.log(user);
 	return (
-		<Layout history={props.history}>
+		<Layout history={props.history} user={user}>
 			<div
 				style={{
 					display: 'flex',
@@ -16,13 +17,6 @@ const HomePage = (props) => {
 				}}
 			>
 				<h2>Landing Page</h2>
-				<button
-					onClick={() =>
-						logout().then(() => props.history.push(`/login`))
-					}
-				>
-					Logout
-				</button>
 			</div>
 		</Layout>
 	);
