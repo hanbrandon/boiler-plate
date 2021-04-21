@@ -37,6 +37,11 @@ const Navbar = (props) => {
 							Register
 						</Link>
 					</li>
+					<li class="nav-item">
+						<Link class="nav-link" to={'/my-account'}>
+							My Account
+						</Link>
+					</li>
 				</ul>
 
 				<button
