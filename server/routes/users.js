@@ -288,8 +288,7 @@ router.put('/resetPassword', (req, res) => {
 						err,
 					});
 				} else {
-					User.updateOne(
-						user,
+					user.updateOne(
 						{ password: hash },
 						(err, response) => {
 							if (!response || err) {

@@ -8,16 +8,13 @@ const URLHost = 'http://localhost:3000';
 
 let mailer = (req, data, res) => {
 	let transporter = nodemailer.createTransport({
-		host: 'mail.cozmorealty.com',
+		host: 'smtp.gmail.com',
 		port: 465,
 		secure: true,
 		auth: {
 			user: mailKey.user,
 			pass: mailKey.pass,
-		},
-		tls: {
-			rejectUnauthorized: false,
-		},
+		}
 	});
 	if (data.mailType === 'contact') {
 		transporter.sendMail(

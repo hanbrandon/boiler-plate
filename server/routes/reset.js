@@ -7,33 +7,46 @@ const crypto = require('crypto');
 const { mailer } = require('../middleware/mailer');
 
 router.post('/forgotpassword', (req, res) => {
+	console.log('reset pass');
 	const beforeHash = new Date().toString() + req.body.email;
 	const hashed = crypto.createHash('sha1').update(beforeHash).digest('hex');
 	const reset = new Reset({
 		email: req.body.email,
-		resetToken: hashed
+		resetToken: hashed,
 	});
 	User.findOne({ email: reset.email }, (err, user) => {
-		console.log(req.body.email);
 		if (err) {
 			return res.json({
 				success: false,
-				message: err
+				message: err,
 			});
 		}
 		if (user) {
-			Reset.findOne({ email: reset.email }, (err, user) => {
+			Reset.findOne({ email: reset.email }, (err, resetUser) => {
 				if (err) {
 					return res.json({
 						success: false,
-						message: err
+						message: err,
 					});
-				} else {
-					UpdateOne(user, { resetToken: hashed }, (error, response) => {
+				}
+				if (resetUser) {
+					Reset.updateOne(resetUser, { $set: { resetToken: hashed } }, (error, response) => {
 						if (error) {
 							return res.json({
 								success: false,
-								message: error
+								message: error,
+							});
+						} else {
+							const tmpObj = { resetToken: hashed, email: user.email, mailType: 'reset' };
+							return mailer(req, tmpObj, res);
+						}
+					});
+				} else {
+					reset.save((error, response) => {
+						if (error) {
+							return res.json({
+								success: false,
+								message: error,
 							});
 						} else {
 							const tmpObj = { resetToken: hashed, email: user.email, mailType: 'reset' };
@@ -43,20 +56,14 @@ router.post('/forgotpassword', (req, res) => {
 				}
 			});
 		} else {
-			reset.save((error, response) => {
-				if (error) {
-					return res.json({
-						success: false,
-						message: error
-					});
-				} else {
-					const tmpObj = { resetToken: hashed, email: user.email, mailType: 'reset' };
-					return mailer(req, tmpObj, res);
-				}
+			return res.json({
+				success: false,
+				message: 'User Not Found',
 			});
 		}
 	});
 });
+
 
 router.get('/getEmail/:token', (req, res) => {
 	Reset.findOne({ resetToken: req.params.token }, (err, user) => {

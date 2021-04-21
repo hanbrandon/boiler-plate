@@ -50,6 +50,7 @@ app.use(passport.session());
 app.get('/', (req, res) => res.send('Hello World!'));
 
 app.use('/api/users', require('./routes/users'));
+app.use('/api/reset', require('./routes/reset'));
 
 if (process.env.NODE_ENV === 'production') {
 	// Set static folder
