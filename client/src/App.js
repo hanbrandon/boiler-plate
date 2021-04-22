@@ -20,7 +20,6 @@ const App = () => {
 				<Route exact path="/register" component={Auth(RegisterPage, false)} />
 				<Route exact path="/forgotpassword" component={Auth(ForgotPasswordPage, false)} />
 				<Route exact path={`/my-account`} component={Auth(MyAccountPage, true)} />
-
 				<Route path="/reset/:id" component={Auth(ResetPasswordPage, false)} />
 			</Switch>
 			<Footer></Footer>

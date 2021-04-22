@@ -6,6 +6,7 @@ const passport = require('../middleware/passport');
 const { mailer } = require('../middleware/mailer');
 const async = require('async');
 const crypto = require('crypto');
+const { ObjectId } = require('mongodb'); // or ObjectID Not Working
 
 /* router.post('/api/users/register', (req, res) => {
 	//회원 가입 할때 필요한 정보들을 Client에서 가져오면 그것들을 데이터 베이스에 넣어준다.
@@ -244,7 +245,7 @@ router.get(
 	}
 );
 
-router.get('/dashboard/my-account/', auth, (req, res) => {
+router.get('/my-account/', auth, (req, res) => {
 	const uid = new ObjectId(req.user._id);
 	let tmpObj = {};
 	User.findOne({ _id: uid }, (err, user) => {
@@ -257,6 +258,8 @@ router.get('/dashboard/my-account/', auth, (req, res) => {
 		tmpObj = { ...user._doc };
 		delete tmpObj.token;
 		delete tmpObj.password;
+
+		console.log(tmpObj);
 		res.status(200).json({ success: true, user: tmpObj });
 	});
 });
@@ -341,6 +344,78 @@ router.put('/resetPassword', (req, res) => {
 					});
 				}
 			});
+		}
+	});
+});
+
+// User update user info and password
+router.put('/update', auth, (req, res) => {
+	const uid = new ObjectId(req.user._id);
+	if (req.body.password.length > 0) {
+		User.findOne({ email: req.body.email, _id: uid }, (err, user) => {
+			if (!user || err) {
+				return res.json({
+					success: false,
+					message: 'No account found.',
+				});
+			} else {
+				user.encryptPassword(req.body.password, (err, hash) => {
+					if (err) {
+						return res.json({
+							success: false,
+							err,
+						});
+					} else {
+						const newUser = { ...req.body, password: hash };
+						User.findOneAndUpdate({ _id: uid }, { $set: newUser }, (err, user) => {
+							if (!user) {
+								return res.json({
+									success: false,
+									message: 'No account found.',
+								});
+							} else {
+								return res.status(200).json({
+									success: true,
+								});
+							}
+						});
+					}
+				});
+			}
+		});
+	} else {
+		delete req.body.password;
+		User.findOneAndUpdate({ _id: req.body._id }, { $set: req.body }, (err, user) => {
+			if (!user || err) {
+				return res.json({
+					success: false,
+					err,
+				});
+			} else {
+				return res.status(200).json({
+					success: true,
+				});
+			}
+		});
+	}
+});
+
+// Delete user account
+router.delete('/delete/:id', auth, (req, res) => {
+	let uid = '';
+	if (req.params.id) {
+		uid = req.params.id;
+	} else {
+		uid = req.user._id;
+	}
+	User.deleteOne({ _id: new ObjectId(uid) }, (err, user) => {
+		if (err) {
+			console.log(err);
+			return res.status(400).json({
+				success: false,
+			});
+		} else {
+			return res.status(200).json({ success: true });
 		}
 	});
 });

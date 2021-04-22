@@ -61,10 +61,13 @@ const MyAccountPage = props => {
 	};
 
 	useEffect(() => {
-		if (curUser && curUser.isAuth === true && curUser._id) {
+		console.log(user);
+		if (user && user.isAuth === true && user._id) {
+			console.log(user);
+
 			fetch();
 		}
-	}, [curUser]);
+	}, [user]);
 
 	const onPasswordHandler = e => {
 		const { name, value } = e.target;
@@ -113,7 +116,7 @@ const MyAccountPage = props => {
 	};
 
 	const handleDelete = e => {
-		axios.delete(`/api/users/put/delete/`).then(res => {
+		axios.delete(`/api/users/delete/`).then(res => {
 			if (res.data && res.data.success) {
 				props.history.push('/');
 			} else {
