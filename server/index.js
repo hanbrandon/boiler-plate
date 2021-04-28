@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const http = require('http').Server(app);
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -35,13 +36,58 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 
+const cookieSessionMiddleware = cookieSession({
+	maxAge: 1209600000, // two weeks in milliseconds
+	keys: [cookieEncryptionKey], //
+})
+
+/* -------------------- SOCKET ----------------------- */
+
+const io = require('socket.io')(http, {
+	cors: {
+		origin: 'http://localhost:3000',
+		methods: ['GET', 'POST'],
+		credentials: true,
+	},
+}); 
+
+io.use((socket, next) => {
+	cookieSessionMiddleware(socket.request, socket.request.res || {}, next);
+});
+
 // Cookie setup
-app.use(
-	cookieSession({
-		maxAge: 1209600000, // two weeks in milliseconds
-		keys: [cookieEncryptionKey], //
+app.use(cookieSessionMiddleware);
+
+let _users = [];
+
+// Socket connection
+io.on('connection', socket => {
+	console.log("Connection established");
+
+	socket.on('setuser', userInfo => {
+		console.log(userInfo._id);
+		if(_users[userInfo._id] !== socket.id ) {
+			_users[userInfo._id] = socket.id;
+		}
 	})
-);
+
+	socket.on("disconnect",()=>{
+		console.log("connection disconnected");
+	});
+});
+
+global._users = _users;
+
+// SOCKET USAGE
+/*
+	const io = req.app.get('socketio');
+	const currUSer = global._users && global._users[USER_ID];
+	io.to(currUSer).emit('auth', 'AUTHENTICATION REQUESTED!!!');
+*/
+
+app.set('socketio', io);
+
+/* -------------------- SOCKET END ----------------------- */
 
 // Passport setup
 app.use(passport.initialize());
@@ -66,6 +112,6 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
+http.listen(port, () => {
 	console.log(`Server Running at ${port}`);
 });

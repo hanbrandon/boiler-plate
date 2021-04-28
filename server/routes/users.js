@@ -266,6 +266,7 @@ router.get('/my-account/', auth, (req, res) => {
 
 router.get('/auth', auth, (req, res) => {
 	//여기까지 미들웨어를 통과해 왔다는 얘기는 Authentication이 True 라는 말.
+	
 	if (req.user) {
 		res.status(200).json({
 			_id: req.user._id,

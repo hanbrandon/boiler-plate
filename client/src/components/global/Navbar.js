@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { authRequested } from '../utils/socketHandler';
 import { logout } from '../../_actions/auth';
 
 const Navbar = props => {
+  /* 
+    //EXAMPLE OF SOCKET USAGE
+    useEffect(() => {
+      authRequested();
+    }, []);
+  */
 	return (
 		<nav className="navbar navbar-expand-lg navbar-light bg-light">
 			<Link className="navbar-brand" to={'/'}>

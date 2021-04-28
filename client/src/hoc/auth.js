@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { auth } from '../_actions/user_action';
+import { setSocketUser } from '../components/utils/socketHandler';
 
 export default function (SpecificComponent, option, adminRoute = null) {
 	//option
@@ -21,6 +22,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
 					}
 				} else {
 					//로그인 한 상태
+					setSocketUser(response.payload);
 					if (adminRoute && !response.payload.isAdmin) {
 						props.history.push('/');
 					} else {
