@@ -4,6 +4,7 @@ import { authRequested } from '../utils/socketHandler';
 
 const Navbar = () => {
 
+
 	useEffect(() => {
 		authRequested();
 	}, []);

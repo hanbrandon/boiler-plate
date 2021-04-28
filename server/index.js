@@ -43,8 +43,6 @@ const cookieSessionMiddleware = cookieSession({
 
 /* -------------------- SOCKET ----------------------- */
 
-global._users = [];
-
 const io = require('socket.io')(http, {
 	cors: {
 		origin: 'http://localhost:3000',
@@ -60,16 +58,32 @@ io.use((socket, next) => {
 // Cookie setup
 app.use(cookieSessionMiddleware);
 
+let _users = [];
+
 // Socket connection
-io.on('connection', (socket) => {
+io.on('connection', socket => {
 	console.log("Connection established");
 
-	console.log(socket.request);
+	socket.on('setuser', userInfo => {
+		console.log(userInfo._id);
+		if(_users[userInfo._id] !== socket.id ) {
+			_users[userInfo._id] = socket.id;
+		}
+	})
 
 	socket.on("disconnect",()=>{
 		console.log("connection disconnected");
 	});
 });
+
+global._users = _users;
+
+// SOCKET USAGE
+/*
+	const io = req.app.get('socketio');
+	const currUSer = global._users && global._users[USER_ID];
+	io.to(currUSer).emit('auth', 'AUTHENTICATION REQUESTED!!!');
+*/
 
 app.set('socketio', io);
 

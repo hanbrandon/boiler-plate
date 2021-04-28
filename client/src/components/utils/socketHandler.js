@@ -19,4 +19,9 @@ const authRequested = cb => {
 	return socket.off('auth', res => console.log(res) );
 }
 
-export { downloadPercentage, testConnection, authRequested };
+const setSocketUser = userInfo => {
+	socket.emit('setuser', userInfo);
+	return socket.off('setuser', userInfo);
+}
+
+export { downloadPercentage, testConnection, authRequested, setSocketUser };

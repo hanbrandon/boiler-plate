@@ -224,10 +224,6 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
 
 router.get('/auth', auth, (req, res) => {
 	//여기까지 미들웨어를 통과해 왔다는 얘기는 Authentication이 True 라는 말.
-
-	// Socket connection to test if socket is working properly
-	const io = req.app.get('socketio');
-	io.emit('auth', 'AUTHENTICATION REQUESTED!!!');
 	
 	if (req.user) {
 		res.status(200).json({
