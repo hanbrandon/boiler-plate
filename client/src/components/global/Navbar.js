@@ -4,11 +4,12 @@ import { authRequested } from '../utils/socketHandler';
 
 const Navbar = () => {
 
-
+/* 
+	//EXAMPLE OF SOCKET USAGE
 	useEffect(() => {
 		authRequested();
 	}, []);
-
+ */
 	return (
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="#">
