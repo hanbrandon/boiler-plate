@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { auth } from '../_actions/user_action';
 import { setSocketUser } from '../components/utils/socketHandler';
 
-export default function(SpecificComponent, option, adminRoute = null) {
+export default function (SpecificComponent, option, adminRoute = null) {
 	//option
 	// null => anyone can open
 	// true => logged users only
 	// false => logged out users only
 
 	const AuthenticationCheck = (props) => {
+		let user = useSelector((state) => state.user);
 		const dispatch = useDispatch();
 
 		useEffect(() => {
@@ -33,7 +34,7 @@ export default function(SpecificComponent, option, adminRoute = null) {
 			});
 		}, []);
 
-		return <SpecificComponent {...props} />;
+		return <SpecificComponent {...props} user={user.userData} />;
 	};
 	return AuthenticationCheck;
 }
